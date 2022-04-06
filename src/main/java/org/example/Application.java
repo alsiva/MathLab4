@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.ApproximationStuff.ApproximationResult;
+import org.example.ApproximationStuff.CubicApproximation;
 import org.example.ApproximationStuff.LinearApproximation;
 import org.example.ApproximationStuff.QuadraticApproximation;
 import org.example.dotStuff.DotStorage;
@@ -17,10 +18,15 @@ public class Application {
 
         ApproximationResult linearApproximation = new LinearApproximation(dotStorage).approximate();
         ApproximationResult quadraticApproximation = new QuadraticApproximation(dotStorage).approximate();
-        System.out.println(linearApproximation.answer());
-        System.out.println(quadraticApproximation.answer());
+        ApproximationResult cubicApproximation = new CubicApproximation(dotStorage).approximate();
 
-        List<ApproximationResult> list = new ArrayList<>(List.of(linearApproximation, quadraticApproximation));
+        List<ApproximationResult> list = new ArrayList<>(List.of(
+            linearApproximation, quadraticApproximation, cubicApproximation));
+
+        for (ApproximationResult approximationResult: list) {
+            System.out.println(approximationResult.answer());
+        }
+
         list.sort(Comparator.comparingDouble(ApproximationResult::getDeviation));
 
         Graph graph = new Graph();
