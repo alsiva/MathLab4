@@ -1,9 +1,7 @@
 package org.example;
 
-import org.example.ApproximationStuff.ApproximationResult;
-import org.example.ApproximationStuff.CubicApproximation;
-import org.example.ApproximationStuff.LinearApproximation;
-import org.example.ApproximationStuff.QuadraticApproximation;
+import org.example.ApproximationStuff.*;
+import org.example.dotStuff.Dot;
 import org.example.dotStuff.DotStorage;
 
 import java.util.ArrayList;
@@ -14,14 +12,32 @@ public class Application {
 
     public static void main(String[] args) {
 
-        DotStorage dotStorage = new DotStorage();
+        DotStorage dotStorage = new DotStorage(List.of(
+            new Dot(-2, -0.5),
+            new Dot(-1.8, -0.497),
+            new Dot(-1.6, -0.488),
+            new Dot(-1.4, -0.47),
+            new Dot(-1.2, -0.441),
+            new Dot(-1, -0.4),
+            new Dot(-0.8, -0.345),
+            new Dot(-0.6, -0.275),
+            new Dot(-0.4, -0.192),
+            new Dot(-0.2, -0.099),
+            new Dot(0, 0)
+        ));
 
-        ApproximationResult linearApproximation = new LinearApproximation(dotStorage).approximate();
+        //ApproximationResult linearApproximation = new LinearApproximation(dotStorage).approximate();
         ApproximationResult quadraticApproximation = new QuadraticApproximation(dotStorage).approximate();
-        ApproximationResult cubicApproximation = new CubicApproximation(dotStorage).approximate();
+        /*
 
+        ApproximationResult cubicApproximation = new CubicApproximation(dotStorage).approximate();
+        ApproximationResult exponentialApproximation = new ExponentialApproximation(dotStorage).approximate();
+        ApproximationResult logarithmicApproximation = new LogarithmicApproximation(dotStorage).approximate();
+        ApproximationResult powerApproximation = new PowerApproximation(dotStorage).approximate();
+
+        */
         List<ApproximationResult> list = new ArrayList<>(List.of(
-            linearApproximation, quadraticApproximation, cubicApproximation));
+            quadraticApproximation));
 
         for (ApproximationResult approximationResult: list) {
             System.out.println(approximationResult.answer());

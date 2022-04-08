@@ -31,4 +31,8 @@ public class ApproximationResult {
         return midSquareDeviation;
     }
 
+    public double[] getCoefficients() {
+        return coefficients;
+    }
+
 }

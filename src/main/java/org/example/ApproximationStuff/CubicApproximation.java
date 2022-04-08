@@ -54,6 +54,16 @@ public class CubicApproximation extends AbstractApproximation {
         };
 
         double[] constants = new double[] {sy, sxy, sx2y, sx3y};
-        return solveLinearSystem(elements, constants);
+        return reverseArray(solveLinearSystem(elements, constants));
     }
+
+    private double[] reverseArray(double[] array) {
+        for (int i = 0; i < array.length / 2; i++) {
+            double temp = array[i];
+            array[i] = array[array.length - i - 1];
+            array[array.length - i - 1] = temp;
+        }
+        return array;
+    }
+
 }

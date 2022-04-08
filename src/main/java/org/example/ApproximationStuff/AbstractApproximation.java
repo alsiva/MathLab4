@@ -23,8 +23,8 @@ public abstract class AbstractApproximation {
     protected double[] solveLinearSystem(double[][] coefficients, double[] constants) {
         DecompositionSolver solver = new LUDecomposition(new Array2DRowRealMatrix(coefficients)).getSolver();
         return solver.solve(new ArrayRealVector(constants)).toArray();
-
     }
+
 
     protected double setS(DotStorage dotStorage, Function phi) {
         double value = 0;
