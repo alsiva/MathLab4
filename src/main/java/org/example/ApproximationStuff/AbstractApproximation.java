@@ -43,7 +43,7 @@ public abstract class AbstractApproximation {
 
         String functionType = type();
 
-        return new ApproximationResult(coefficients, phi, midSquareDeviation, functionType);
+        return new ApproximationResult(coefficients, phi, midSquareDeviation, functionType, roundedFunction);
     }
 
     protected abstract double[] findCoefficients(DotStorage dotStorage);

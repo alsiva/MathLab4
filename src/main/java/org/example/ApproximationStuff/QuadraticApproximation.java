@@ -1,6 +1,6 @@
 package org.example.ApproximationStuff;
 
-import org.example.FunctionStuff.Function;
+
 import org.example.dotStuff.DotStorage;
 
 
@@ -15,15 +15,6 @@ public class QuadraticApproximation extends AbstractApproximation {
     protected String createFunction(double[] coefficients) {
         return coefficients[0] + "x^2+" + coefficients[1] + "x+" + coefficients[0];
     }
-
-    public ApproximationResult approximate(DotStorage dotStorage) {
-        double[] coefficients = findCoefficients(dotStorage);
-        Function phi = new Function(coefficients[0] + "x^2+" + coefficients[1] + "x+" + coefficients[0]);
-        double s = setS(dotStorage, phi);
-        double midSquareDeviation = setMidSquareDeviation(dotStorage, phi);
-        return new ApproximationResult(coefficients, phi, midSquareDeviation, "Quadratic");
-    }
-
 
     protected double[] findCoefficients(DotStorage dotStorage) {
 
