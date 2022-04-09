@@ -6,12 +6,17 @@ import org.example.dotStuff.DotStorage;
 
 public class QuadraticApproximation extends AbstractApproximation {
 
-
-    public QuadraticApproximation(DotStorage dotStorage) {
-        super(dotStorage);
+    @Override
+    protected String type() {
+        return "Quadratic";
     }
 
-    public ApproximationResult approximate() {
+    @Override
+    protected String createFunction(double[] coefficients) {
+        return coefficients[0] + "x^2+" + coefficients[1] + "x+" + coefficients[0];
+    }
+
+    public ApproximationResult approximate(DotStorage dotStorage) {
         double[] coefficients = findCoefficients(dotStorage);
         Function phi = new Function(coefficients[0] + "x^2+" + coefficients[1] + "x+" + coefficients[0]);
         double s = setS(dotStorage, phi);

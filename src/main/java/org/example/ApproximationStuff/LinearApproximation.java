@@ -7,21 +7,18 @@ import org.example.dotStuff.DotStorage;
 public class LinearApproximation extends AbstractApproximation {
 
 
-    public LinearApproximation(DotStorage dotStorage) {
-        super(dotStorage);
+    @Override
+    protected String type() {
+        return "Linear";
     }
 
-    public ApproximationResult approximate() {
-        double[] coefficients = findCoefficients(dotStorage);
-        Function phi = new Function(coefficients[0] + "x+" + coefficients[1]);
-        double s = setS(dotStorage, phi);
-        double midSquareDeviation = setMidSquareDeviation(dotStorage, phi);
-        return new ApproximationResult(coefficients, phi, midSquareDeviation, "Linear");
+    @Override
+    protected String createFunction(double[] coefficients) {
+        return coefficients[0] + "x+" + coefficients[1];
     }
 
 
     protected double[] findCoefficients(DotStorage dotStorage) {
-
         double sx = 0;
         double sx2 = 0;
         double sy = 0;
@@ -34,8 +31,6 @@ public class LinearApproximation extends AbstractApproximation {
             sxy += dotStorage.getDot(i).getX() * dotStorage.getDot(i).getY();
         }
 
-
-
         double[][] elements = {
             {sx2, sx},
             {sx, dotStorage.size()}
@@ -47,7 +42,4 @@ public class LinearApproximation extends AbstractApproximation {
 
         return solveLinearSystem(elements, constants);
     }
-
-
-
 }

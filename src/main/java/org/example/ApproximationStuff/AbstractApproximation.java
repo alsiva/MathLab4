@@ -9,13 +9,24 @@ import org.example.dotStuff.DotStorage;
 
 public abstract class AbstractApproximation {
 
-    protected final DotStorage dotStorage;
+    public ApproximationResult approximate(DotStorage dotStorage) {
+        double[] coefficients = findCoefficients(dotStorage);
+        Function phi = new Function(createFunction(coefficients));
+        double s = setS(dotStorage, phi);
+        double midSquareDeviation = setMidSquareDeviation(dotStorage, phi);
 
-    public AbstractApproximation(DotStorage dotStorage) {
-        this.dotStorage = dotStorage;
+        DecimalFormat df = new DecimalFormat("0.000");
+
+        double[] roundedCoefficients = Arrays.stream(coefficients)
+            .map(value -> new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue())
+            .toArray();
+
+        String roundedFunction = createFunction(roundedCoefficients);
+
+        String functionType = type();
+
+        return new ApproximationResult(coefficients, phi, midSquareDeviation, functionType);
     }
-
-    public abstract ApproximationResult approximate();
 
     protected abstract double[] findCoefficients(DotStorage dotStorage);
 
@@ -31,6 +42,7 @@ public abstract class AbstractApproximation {
         for (int i = 0; i < dotStorage.size(); i++) {
             value += Math.pow(phi.apply(dotStorage.getDot(i).getX()) - dotStorage.getDot(i).getY(), 2);
         }
+
         return value;
     }
 

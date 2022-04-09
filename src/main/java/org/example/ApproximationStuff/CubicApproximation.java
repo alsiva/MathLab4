@@ -6,18 +6,16 @@ import org.example.dotStuff.DotStorage;
 public class CubicApproximation extends AbstractApproximation {
 
 
-    public CubicApproximation(DotStorage dotStorage) {
-        super(dotStorage);
+    @Override
+    protected String type() {
+        return "Cubic";
     }
 
     @Override
-    public ApproximationResult approximate() {
-        double[] coefficients = findCoefficients(dotStorage);
-        Function phi = new Function(  coefficients[0] + "x^3+"+ coefficients[1] + "x^2+" + coefficients[2] + "x+" + coefficients[3]);
-        double s = setS(dotStorage, phi);
-        double midSquareDeviation = setMidSquareDeviation(dotStorage, phi);
-        return new ApproximationResult(coefficients, phi, midSquareDeviation, "Cubic");
+    protected String createFunction(double[] coefficients) {
+        return coefficients[0] + "x^3+"+ coefficients[1] + "x^2+" + coefficients[2] + "x+" + coefficients[3];
     }
+
 
     @Override
     protected double[] findCoefficients(DotStorage dotStorage) {
