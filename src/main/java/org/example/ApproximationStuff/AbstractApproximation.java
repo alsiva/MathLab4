@@ -7,7 +7,15 @@ import org.apache.commons.math3.linear.LUDecomposition;
 import org.example.FunctionStuff.Function;
 import org.example.dotStuff.DotStorage;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+
 public abstract class AbstractApproximation {
+
+    protected abstract String type();
+    protected abstract String createFunction(double[] coefficients);
 
     public ApproximationResult approximate(DotStorage dotStorage) {
         double[] coefficients = findCoefficients(dotStorage);
@@ -56,6 +64,15 @@ public abstract class AbstractApproximation {
         value = value / dotStorage.size();
         value = Math.sqrt(value);
         return value;
+    }
+
+    protected double[] reverseArray(double[] array) {
+        for (int i = 0; i < array.length / 2; i++) {
+            double temp = array[i];
+            array[i] = array[array.length - i - 1];
+            array[array.length - i - 1] = temp;
+        }
+        return array;
     }
 
 }

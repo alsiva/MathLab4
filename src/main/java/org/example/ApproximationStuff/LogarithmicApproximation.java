@@ -1,13 +1,17 @@
 package org.example.ApproximationStuff;
-
-import org.example.FunctionStuff.Function;
 import org.example.dotStuff.DotStorage;
 
 
 public class LogarithmicApproximation extends AbstractApproximation{
 
-    public LogarithmicApproximation(DotStorage dotStorage) {
-        super(dotStorage);
+
+    @Override
+    protected String type() {
+        return null;
+    }
+
+    protected final String createFunction(double[] coefficients) {
+        return coefficients[1] + "log(x)+" + coefficients[0];
     }
 
     @Override

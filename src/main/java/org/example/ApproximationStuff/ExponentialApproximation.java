@@ -1,10 +1,18 @@
 package org.example.ApproximationStuff;
-
-import org.example.FunctionStuff.Function;
 import org.example.dotStuff.DotStorage;
 
 public class ExponentialApproximation extends AbstractApproximation {
 
+
+    @Override
+    protected String type() {
+        return "Exponential";
+    }
+
+    @Override
+    protected String createFunction(double[] coefficients) {
+        return coefficients[1] + "e^" + "{" + coefficients[0] + "x" + "}";
+    }
 
     @Override
     protected double[] findCoefficients(DotStorage dotStorage) {
@@ -22,7 +30,7 @@ public class ExponentialApproximation extends AbstractApproximation {
 
         }
 
-        ApproximationResult linearApproximation = new LinearApproximation(modifiedDotStorage).approximate();
+        ApproximationResult linearApproximation = new LinearApproximation().approximate(modifiedDotStorage);
         double[] coefficients = linearApproximation.getCoefficients();
         coefficients[1] = Math.exp(coefficients[1]);
 

@@ -1,21 +1,17 @@
 package org.example.ApproximationStuff;
-
-import org.example.FunctionStuff.Function;
 import org.example.dotStuff.DotStorage;
 
 public class PowerApproximation extends AbstractApproximation {
 
-    public PowerApproximation(DotStorage dotStorage) {
-        super(dotStorage);
+
+    @Override
+    protected String type() {
+        return "Power";
     }
 
     @Override
-    public ApproximationResult approximate() {
-        double[] coefficients = findCoefficients(dotStorage);
-        Function phi = new Function(coefficients[1] + "x^" + coefficients[0]);
-        double s = setS(dotStorage, phi);
-        double midSquareDeviation = setMidSquareDeviation(dotStorage, phi);
-        return new ApproximationResult(coefficients, phi, midSquareDeviation, "Power");
+    protected String createFunction(double[] coefficients) {
+        return coefficients[1] + "x^" + coefficients[0];
     }
 
     @Override
@@ -36,7 +32,7 @@ public class PowerApproximation extends AbstractApproximation {
 
         }
 
-        ApproximationResult linearApproximation = new LinearApproximation(modifiedDotStorage).approximate();
+        ApproximationResult linearApproximation = new LinearApproximation().approximate(modifiedDotStorage);
         double[] coefficients = linearApproximation.getCoefficients();
         coefficients[1] = Math.exp(coefficients[1]);
 

@@ -1,6 +1,4 @@
 package org.example.ApproximationStuff;
-
-import org.example.FunctionStuff.Function;
 import org.example.dotStuff.DotStorage;
 
 
