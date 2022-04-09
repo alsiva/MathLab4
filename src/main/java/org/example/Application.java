@@ -53,7 +53,7 @@ public class Application {
 //        list.sort(Comparator.comparingDouble(ApproximationResult::getDeviation));
 
         Graph graph = new Graph();
-        graph.setApproximationResult(sortedResults);
+        graph.setApproximationResult(sortedResults, dotStorage);
         graph.run();
 
 
