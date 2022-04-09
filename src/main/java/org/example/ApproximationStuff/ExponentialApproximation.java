@@ -23,7 +23,7 @@ public class ExponentialApproximation extends AbstractApproximation {
             double y = modifiedDotStorage.getDot(i).getY();
 
             if (y <= 0) {
-                continue;
+                return null;
             }
 
             modifiedDotStorage.getDot(i).setY(Math.log(y));

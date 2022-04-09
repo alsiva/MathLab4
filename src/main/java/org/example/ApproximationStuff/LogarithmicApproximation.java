@@ -7,7 +7,7 @@ public class LogarithmicApproximation extends AbstractApproximation{
 
     @Override
     protected String type() {
-        return null;
+        return "Logarithmic";
     }
 
     protected final String createFunction(double[] coefficients) {
@@ -22,7 +22,7 @@ public class LogarithmicApproximation extends AbstractApproximation{
             double x = modifiedDotStorage.getDot(i).getX();
 
             if (x <= 0) {
-                continue;
+                return null;
             }
 
             modifiedDotStorage.getDot(i).setX(Math.log(x));

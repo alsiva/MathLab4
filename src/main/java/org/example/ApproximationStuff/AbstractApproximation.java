@@ -15,10 +15,20 @@ import java.util.Arrays;
 public abstract class AbstractApproximation {
 
     protected abstract String type();
+
+    public String getType() {
+        return this.type();
+    }
+
     protected abstract String createFunction(double[] coefficients);
 
     public ApproximationResult approximate(DotStorage dotStorage) {
         double[] coefficients = findCoefficients(dotStorage);
+
+        if (coefficients == null) {
+            return null;
+        }
+
         Function phi = new Function(createFunction(coefficients));
         double s = setS(dotStorage, phi);
         double midSquareDeviation = setMidSquareDeviation(dotStorage, phi);

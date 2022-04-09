@@ -22,12 +22,12 @@ public class PowerApproximation extends AbstractApproximation {
             double x = modifiedDotStorage.getDot(i).getX();
             double y = modifiedDotStorage.getDot(i).getY();
 
-            if (x > 0) {
-                modifiedDotStorage.getDot(i).setX(Math.log(x));
+            if (x < 0) {
+                return null;
             }
 
-            if (y > 0) {
-                modifiedDotStorage.getDot(i).setY(Math.log(y));
+            if (y < 0) {
+                return null;
             }
 
         }

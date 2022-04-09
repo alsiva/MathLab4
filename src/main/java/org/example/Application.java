@@ -4,14 +4,19 @@ import org.example.ApproximationStuff.*;
 import org.example.dotStuff.Dot;
 import org.example.dotStuff.DotStorage;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import java.util.*;
+
 
 public class Application {
+
+    private static final LinearApproximation linearApproximation = new LinearApproximation();
     private static final QuadraticApproximation quadraticApproximation = new QuadraticApproximation();
     private static final CubicApproximation cubicApproximation = new CubicApproximation();
+
+    private static final ExponentialApproximation exponentialApproximation = new ExponentialApproximation();
+    private static final LogarithmicApproximation logarithmicApproximation = new LogarithmicApproximation();
+    private static final PowerApproximation powerApproximation = new PowerApproximation();
 
     public static void main(String[] args) {
 
@@ -29,31 +34,34 @@ public class Application {
             new Dot(0, 0)
         ));
 
-        List<ApproximationResult> sortedResults = Stream.of(quadraticApproximation, cubicApproximation)
-            .map(approximation -> approximation.approximate(dotStorage))
-            .sorted(Comparator.comparingDouble(ApproximationResult::getDeviation))
-            .collect(Collectors.toList());
-
-        sortedResults.stream()
-            .map(ApproximationResult::answer)
-            .forEach(System.out::println);
-
-        List<ApproximationResult> firstApproximationResult = sortedResults.subList(0, 1);
 
 
 
+        List<AbstractApproximation> approximations = Arrays.asList(
+            linearApproximation, quadraticApproximation, cubicApproximation,
+            exponentialApproximation, logarithmicApproximation, powerApproximation
+        );
 
-//        List<ApproximationResult> list = new ArrayList<>(List.of(
-//            quadraticApproximation));
-//
-//        for (ApproximationResult approximationResult: list) {
-//            System.out.println(approximationResult.answer());
-//        }
+        List<ApproximationResult> approximationResults = new ArrayList<>();
 
-//        list.sort(Comparator.comparingDouble(ApproximationResult::getDeviation));
+        for (AbstractApproximation approximation: approximations) {
+            ApproximationResult result = approximation.approximate(dotStorage);
+            if (result != null) {
+                approximationResults.add(result);
+                System.out.println(result.answer());
+            } else {
+                System.out.println(approximation.getType() + " didn't work");
+            }
+        }
+
+
+        approximationResults.sort(Comparator.comparingDouble(ApproximationResult::getDeviation));
+        List<ApproximationResult> firstApproximationResult = approximationResults.subList(0, 1);
+
+
 
         Graph graph = new Graph();
-        graph.setApproximationResult(sortedResults, dotStorage);
+        graph.setApproximationResult(firstApproximationResult, dotStorage);
         graph.run();
 
 
