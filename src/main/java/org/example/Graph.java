@@ -46,7 +46,7 @@ public class Graph extends Application implements Runnable {
 
 
         for (ApproximationResult approximationResult: approximations) {
-            drawFunction(approximationResult.getFunction());
+            drawFunction(approximationResult.getFunction(), approximationResult.getFuncShort());
         }
 
         drawDots(dotStorage);
@@ -56,9 +56,9 @@ public class Graph extends Application implements Runnable {
         stage.show();
     }
 
-    private void drawFunction(Function function) {
+    private void drawFunction(Function function, String funcShort) {
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        series.setName("y=" + function.toString());
+        series.setName("y=" + funcShort);
 
 
         for (double point = -lineSize; point <= lineSize; point += 0.25) {

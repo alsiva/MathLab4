@@ -23,6 +23,10 @@ public class ApproximationResult {
         return function;
     }
 
+    public String getFuncShort() {
+        return this.funcShort;
+    }
+
     public String answer() {
         return type + " approximation result.\n" +
             "Function: " + function + "\n" +
