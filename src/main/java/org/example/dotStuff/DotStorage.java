@@ -10,6 +10,10 @@ public class DotStorage {
         this.DOTS = DOTS;
     }
 
+    public List<Dot> getDOTS() {
+        return this.DOTS;
+    }
+
     public DotStorage copy() {
         return new DotStorage(this.DOTS);
     }

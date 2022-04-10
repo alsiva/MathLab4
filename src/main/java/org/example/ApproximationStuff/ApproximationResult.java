@@ -5,11 +5,11 @@ import org.example.FunctionStuff.Function;
 
 public class ApproximationResult {
 
-    private final double[] coefficients;
-    private final String type;
-    private final Function function;
-    private final String funcShort;
-    private final double midSquareDeviation;
+    protected final double[] coefficients;
+    protected final String type;
+    protected final Function function;
+    protected final String funcShort;
+    protected final double midSquareDeviation;
 
     public ApproximationResult(double[] coefficients, Function function, double midSquareDeviation, String type, String funcShort) {
         this.coefficients = coefficients;
@@ -30,7 +30,7 @@ public class ApproximationResult {
     public String answer() {
         return type + " approximation result.\n" +
             "Function: " + function + "\n" +
-            "Short funciton: " + funcShort + "\n" +
+            "Short function: " + funcShort + "\n" +
             "Deviation: " + midSquareDeviation + "\n";
     }
 

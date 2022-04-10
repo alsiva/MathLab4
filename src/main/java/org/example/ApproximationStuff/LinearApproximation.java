@@ -1,5 +1,13 @@
 package org.example.ApproximationStuff;
+import org.example.FunctionStuff.Function;
+import org.example.dotStuff.Dot;
 import org.example.dotStuff.DotStorage;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class LinearApproximation extends AbstractApproximation {
@@ -15,6 +23,30 @@ public class LinearApproximation extends AbstractApproximation {
         return coefficients[0] + "x+" + coefficients[1];
     }
 
+    @Override
+    public ApproximationResult approximate(DotStorage dotStorage) {
+        double[] coefficients = findCoefficients(dotStorage);
+
+        if (coefficients == null) {
+            return null;
+        }
+
+        Function phi = new Function(createFunction(coefficients));
+        double s = setS(dotStorage, phi);
+        double midSquareDeviation = setMidSquareDeviation(dotStorage, phi);
+
+        DecimalFormat df = new DecimalFormat("0.000");
+
+        double[] roundedCoefficients = Arrays.stream(coefficients)
+            .map(value -> new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue())
+            .toArray();
+
+        String roundedFunction = createFunction(roundedCoefficients);
+
+        String functionType = type();
+
+        return new LinearApproximationResult(coefficients, phi, midSquareDeviation, functionType, roundedFunction, countCorrelation(dotStorage));
+    }
 
     protected double[] findCoefficients(DotStorage dotStorage) {
         double sx = 0;
@@ -39,5 +71,18 @@ public class LinearApproximation extends AbstractApproximation {
         };
 
         return solveLinearSystem(elements, constants);
+    }
+
+    private double countCorrelation(DotStorage dotStorage) {
+        List<Dot> dotList = dotStorage.getDOTS();
+
+        final double xAvg = dotList.stream().mapToDouble(Dot::getX).sum() / dotList.size();
+        final double yAvg = dotList.stream().mapToDouble(Dot::getY).sum() / dotList.size();
+
+        double top = dotList.stream().map(dot -> new double[]{dot.getX() - xAvg, dot.getY() - yAvg}).mapToDouble(dot -> dot[0] * dot[1]).sum();
+        double bottomXSum = dotList.stream().mapToDouble(dot -> Math.pow(dot.getX() - xAvg, 2)).sum();
+        double bottomYSum = dotList.stream().mapToDouble(dot -> Math.pow(dot.getY() - yAvg, 2)).sum();
+
+        return top / Math.sqrt(bottomXSum * bottomYSum);
     }
 }
