@@ -58,13 +58,9 @@ public class Application {
         approximationResults.sort(Comparator.comparingDouble(ApproximationResult::getDeviation));
         List<ApproximationResult> firstApproximationResult = approximationResults.subList(0, 1);
 
-
-
         Graph graph = new Graph();
         graph.setApproximationResult(firstApproximationResult, dotStorage);
         graph.run();
-
-
     }
 
 }
