@@ -4,7 +4,7 @@ import org.example.ApproximationStuff.*;
 import org.example.dotStuff.Dot;
 import org.example.dotStuff.DotStorage;
 
-
+import java.io.*;
 import java.util.*;
 
 
@@ -19,7 +19,7 @@ public class Application {
     private static final PowerApproximation powerApproximation = new PowerApproximation();
 
     public static void main(String[] args) {
-
+        /*
         DotStorage dotStorage = new DotStorage(List.of(
             new Dot(-2, -0.5),
             new Dot(-1.8, -0.497),
@@ -34,6 +34,16 @@ public class Application {
             new Dot(0, 0)
         ));
 
+         */
+
+        DotStorage dotStorage;
+
+        try {
+           dotStorage = readDots();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
 
 
 
@@ -61,6 +71,49 @@ public class Application {
         Graph graph = new Graph();
         graph.setApproximationResult(firstApproximationResult, dotStorage);
         graph.run();
+    }
+
+    private static DotStorage readDots() throws IOException {
+        try (BufferedReader stdinReader = new BufferedReader(new InputStreamReader(System.in))) {
+            System.out.println("Введите имя файла или 0 для ввода с клавиатуры");
+            String input = stdinReader.readLine();
+
+            if (input.equals("0")) {
+                return parseDotStorage(stdinReader);
+            } else {
+                try (BufferedReader fileReader = new BufferedReader(new FileReader(input))) {
+                    return parseDotStorage(fileReader);
+                }
+            }
+        }
+    }
+
+    private static DotStorage parseDotStorage(BufferedReader reader) throws IOException {
+        List<Dot> dotList = new ArrayList<>();
+
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            if (line.isBlank()) {
+                break;
+            }
+
+            String[] elements = line.trim().split("(\\s++)");
+            if (elements.length != 2) {
+                throw new IllegalArgumentException("Должно быть только два числа");
+            } else {
+                try {
+                    double x = Double.parseDouble(elements[0]);
+                    double y = Double.parseDouble(elements[1]);
+                    dotList.add(new Dot(x, y));
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Failed to parse x or y");
+                }
+
+            }
+        }
+
+        return new DotStorage(dotList);
     }
 
 }
